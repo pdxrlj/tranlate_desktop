@@ -24,6 +24,23 @@
 
 1. 克隆项目到本地：
 
+```bash
+git clone https://github.com/your-repo/flutter_demo.git
+cd flutter_demo
+```
+
+2. 获取依赖：
+
+```bash
+flutter pub get
+```
+
+3. 运行项目：
+
+```bash
+flutter run
+```
+
 ## 打包说明
 
 ### Windows 静态打包
@@ -31,6 +48,7 @@
 要生成单个 EXE 文件（包含所有 DLL），请按以下步骤操作：
 
 1. 使用 Release 模式构建：
+
 ```bash
 flutter build windows --release
 ```
