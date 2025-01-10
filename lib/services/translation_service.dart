@@ -21,7 +21,7 @@ class TranslationService {
           'messages': [
             {
               'role': 'system',
-              'content': '你是一个专业的翻译助手。请将用户输入的文本翻译成$targetLang语言，只返回翻译结果，不需要解释。'
+              'content': '你是一个专业的翻译助手。请将用户输入的文本翻译成${targetLang == "zh" ? "中文" : "英文"}，只返回翻译结果，不需要解释。'
             },
             {
               'role': 'user',

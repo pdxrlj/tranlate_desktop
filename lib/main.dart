@@ -112,6 +112,7 @@ class _MyHomePageState extends State<MyHomePage> with WindowListener {
   final SystemTray _systemTray = SystemTray();
   final Menu _menu = Menu();
   bool _isExit = false;
+  String _targetLanguage = 'zh'; // 默认目标语言为中文
 
   @override
   void initState() {
@@ -257,7 +258,16 @@ class _MyHomePageState extends State<MyHomePage> with WindowListener {
     try {
       final config = Provider.of<ConfigService>(context, listen: false).config;
       final translationService = TranslationService(config);
-      final result = await translationService.translate(_sourceController.text);
+      final sourceText = _sourceController.text;
+      
+      String targetLang = _targetLanguage;
+      if (_targetLanguage == 'auto') {
+        // 检测文本是否包含中文字符
+        final containsChinese = RegExp(r'[\u4e00-\u9fa5]').hasMatch(sourceText);
+        targetLang = containsChinese ? 'en' : 'zh';
+      }
+      
+      final result = await translationService.translate(sourceText, targetLang: targetLang);
       setState(() => _translatedText = result);
     } catch (e) {
       if (mounted) {
@@ -531,10 +541,128 @@ class _MyHomePageState extends State<MyHomePage> with WindowListener {
                                   .titleMedium
                                   ?.copyWith(fontWeight: FontWeight.bold),
                             ),
-                            IconButton(
-                              icon: const Icon(Icons.clear),
-                              onPressed: _clearText,
-                              tooltip: '清除文本',
+                            Row(
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 4, bottom: 4),
+                                      child: Row(
+                                        children: [
+                                          Icon(
+                                            Icons.translate,
+                                            size: 14,
+                                            color: Theme.of(context).colorScheme.primary.withOpacity(0.7),
+                                          ),
+                                          SizedBox(width: 4),
+                                          Text(
+                                            '目标语言',
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              color: Theme.of(context).colorScheme.primary.withOpacity(0.7),
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        border: Border.all(
+                                          color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
+                                        ),
+                                        color: Theme.of(context).colorScheme.primary.withOpacity(0.05),
+                                      ),
+                                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+                                      child: ButtonTheme(
+                                        alignedDropdown: true,
+                                        child: DropdownButtonHideUnderline(
+                                          child: DropdownButton<String>(
+                                            value: _targetLanguage,
+                                            icon: Icon(
+                                              Icons.language,
+                                              color: Theme.of(context).colorScheme.primary,
+                                              size: 20,
+                                            ),
+                                            elevation: 2,
+                                            dropdownColor: Theme.of(context).colorScheme.surface,
+                                            focusColor: Colors.transparent,
+                                            style: TextStyle(
+                                              color: Theme.of(context).colorScheme.primary,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                            menuMaxHeight: 200,
+                                            items: [
+                                              DropdownMenuItem(
+                                                value: 'zh',
+                                                child: Padding(
+                                                  padding: EdgeInsets.symmetric(horizontal: 8),
+                                                  child: Row(
+                                                    mainAxisSize: MainAxisSize.min,
+                                                    children: [
+                                                      Text('中文'),
+                                                      SizedBox(width: 4),
+                                                      Text('🇨🇳', style: TextStyle(fontSize: 14)),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              DropdownMenuItem(
+                                                value: 'en',
+                                                child: Padding(
+                                                  padding: EdgeInsets.symmetric(horizontal: 8),
+                                                  child: Row(
+                                                    mainAxisSize: MainAxisSize.min,
+                                                    children: [
+                                                      Text('英文'),
+                                                      SizedBox(width: 4),
+                                                      Text('🇬🇧', style: TextStyle(fontSize: 14)),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              DropdownMenuItem(
+                                                value: 'auto',
+                                                child: Padding(
+                                                  padding: EdgeInsets.symmetric(horizontal: 8),
+                                                  child: Row(
+                                                    mainAxisSize: MainAxisSize.min,
+                                                    children: [
+                                                      Text('自动'),
+                                                      SizedBox(width: 4),
+                                                      Icon(
+                                                        Icons.auto_awesome,
+                                                        size: 16,
+                                                        color: Theme.of(context).colorScheme.primary,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                            onChanged: (String? newValue) {
+                                              if (newValue != null) {
+                                                setState(() {
+                                                  _targetLanguage = newValue;
+                                                });
+                                              }
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(width: 12),
+                                IconButton(
+                                  icon: const Icon(Icons.clear),
+                                  onPressed: _clearText,
+                                  tooltip: '清除文本',
+                                ),
+                              ],
                             ),
                           ],
                         ),
