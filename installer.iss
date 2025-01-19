@@ -12,7 +12,7 @@ AppPublisher={#MyAppPublisher}
 DefaultDirName={autopf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
 OutputDir=installer
-OutputBaseFilename=translate_desktop_setup
+OutputBaseFilename=translate_desktop
 Compression=lzma
 SolidCompression=yes
 ; 允许用户选择安装目录

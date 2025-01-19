@@ -571,22 +571,37 @@ class _MyHomePageState extends State<MyHomePage> with WindowListener {
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(8),
                                         border: Border.all(
-                                          color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
+                                          color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+                                          width: 1.5,
                                         ),
-                                        color: Theme.of(context).colorScheme.primary.withOpacity(0.05),
+                                        gradient: LinearGradient(
+                                          begin: Alignment.topLeft,
+                                          end: Alignment.bottomRight,
+                                          colors: [
+                                            Theme.of(context).colorScheme.primary.withOpacity(0.05),
+                                            Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                                          ],
+                                        ),
                                       ),
                                       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 0),
-                                      child: ButtonTheme(
-                                        alignedDropdown: true,
+                                      child: Theme(
+                                        data: Theme.of(context).copyWith(
+                                          inputDecorationTheme: InputDecorationTheme(
+                                            border: InputBorder.none,
+                                            focusedBorder: InputBorder.none,
+                                            enabledBorder: InputBorder.none,
+                                          ),
+                                        ),
                                         child: DropdownButtonHideUnderline(
                                           child: DropdownButton<String>(
                                             value: _targetLanguage,
                                             icon: Icon(
-                                              Icons.language,
+                                              Icons.keyboard_arrow_down_rounded,
                                               color: Theme.of(context).colorScheme.primary,
                                               size: 20,
                                             ),
-                                            elevation: 2,
+                                            elevation: 4,
+                                            borderRadius: BorderRadius.circular(12),
                                             dropdownColor: Theme.of(context).colorScheme.surface,
                                             focusColor: Colors.transparent,
                                             style: TextStyle(
@@ -598,47 +613,101 @@ class _MyHomePageState extends State<MyHomePage> with WindowListener {
                                             items: [
                                               DropdownMenuItem(
                                                 value: 'zh',
-                                                child: Padding(
-                                                  padding: EdgeInsets.symmetric(horizontal: 8),
-                                                  child: Row(
-                                                    mainAxisSize: MainAxisSize.min,
-                                                    children: [
-                                                      Text('中文'),
-                                                      SizedBox(width: 4),
-                                                      Text('🇨🇳', style: TextStyle(fontSize: 14)),
-                                                    ],
+                                                child: Material(
+                                                  color: Colors.transparent,
+                                                  child: Container(
+                                                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                                                    constraints: BoxConstraints(maxWidth: 120),
+                                                    child: Row(
+                                                      mainAxisSize: MainAxisSize.min,
+                                                      children: [
+                                                        Text(
+                                                          '中文',
+                                                          style: TextStyle(
+                                                            fontWeight: _targetLanguage == 'zh' ? FontWeight.w600 : FontWeight.normal,
+                                                          ),
+                                                        ),
+                                                        SizedBox(width: 6),
+                                                        Text('🇨🇳', style: TextStyle(fontSize: 14)),
+                                                        if (_targetLanguage == 'zh')
+                                                          Padding(
+                                                            padding: EdgeInsets.only(left: 6),
+                                                            child: Icon(
+                                                              Icons.check,
+                                                              size: 16,
+                                                              color: Theme.of(context).colorScheme.primary,
+                                                            ),
+                                                          ),
+                                                      ],
+                                                    ),
                                                   ),
                                                 ),
                                               ),
                                               DropdownMenuItem(
                                                 value: 'en',
-                                                child: Padding(
-                                                  padding: EdgeInsets.symmetric(horizontal: 8),
-                                                  child: Row(
-                                                    mainAxisSize: MainAxisSize.min,
-                                                    children: [
-                                                      Text('英文'),
-                                                      SizedBox(width: 4),
-                                                      Text('🇬🇧', style: TextStyle(fontSize: 14)),
-                                                    ],
+                                                child: Material(
+                                                  color: Colors.transparent,
+                                                  child: Container(
+                                                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                                                    constraints: BoxConstraints(maxWidth: 120),
+                                                    child: Row(
+                                                      mainAxisSize: MainAxisSize.min,
+                                                      children: [
+                                                        Text(
+                                                          '英文',
+                                                          style: TextStyle(
+                                                            fontWeight: _targetLanguage == 'en' ? FontWeight.w600 : FontWeight.normal,
+                                                          ),
+                                                        ),
+                                                        SizedBox(width: 6),
+                                                        Text('🇬🇧', style: TextStyle(fontSize: 14)),
+                                                        if (_targetLanguage == 'en')
+                                                          Padding(
+                                                            padding: EdgeInsets.only(left: 6),
+                                                            child: Icon(
+                                                              Icons.check,
+                                                              size: 16,
+                                                              color: Theme.of(context).colorScheme.primary,
+                                                            ),
+                                                          ),
+                                                      ],
+                                                    ),
                                                   ),
                                                 ),
                                               ),
                                               DropdownMenuItem(
                                                 value: 'auto',
-                                                child: Padding(
-                                                  padding: EdgeInsets.symmetric(horizontal: 8),
-                                                  child: Row(
-                                                    mainAxisSize: MainAxisSize.min,
-                                                    children: [
-                                                      Text('自动'),
-                                                      SizedBox(width: 4),
-                                                      Icon(
-                                                        Icons.auto_awesome,
-                                                        size: 16,
-                                                        color: Theme.of(context).colorScheme.primary,
-                                                      ),
-                                                    ],
+                                                child: Material(
+                                                  color: Colors.transparent,
+                                                  child: Container(
+                                                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                                                    constraints: BoxConstraints(maxWidth: 120),
+                                                    child: Row(
+                                                      mainAxisSize: MainAxisSize.min,
+                                                      children: [
+                                                        Text(
+                                                          '自动',
+                                                          style: TextStyle(
+                                                            fontWeight: _targetLanguage == 'auto' ? FontWeight.w600 : FontWeight.normal,
+                                                          ),
+                                                        ),
+                                                        SizedBox(width: 6),
+                                                        Icon(
+                                                          Icons.auto_awesome,
+                                                          size: 16,
+                                                          color: Theme.of(context).colorScheme.primary,
+                                                        ),
+                                                        if (_targetLanguage == 'auto')
+                                                          Padding(
+                                                            padding: EdgeInsets.only(left: 6),
+                                                            child: Icon(
+                                                              Icons.check,
+                                                              size: 16,
+                                                              color: Theme.of(context).colorScheme.primary,
+                                                            ),
+                                                          ),
+                                                      ],
+                                                    ),
                                                   ),
                                                 ),
                                               ),
@@ -734,8 +803,18 @@ class _MyHomePageState extends State<MyHomePage> with WindowListener {
                                 icon: const Icon(Icons.copy),
                                 onPressed: _translatedText.isEmpty
                                     ? null
-                                    : () {
-                                        // TODO: Implement copy functionality
+                                    : () async {
+                                        await Clipboard.setData(
+                                          ClipboardData(text: _translatedText),
+                                        );
+                                        if (mounted) {
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            const SnackBar(
+                                              content: Text('已复制到剪贴板'),
+                                              duration: Duration(seconds: 2),
+                                            ),
+                                          );
+                                        }
                                       },
                                 tooltip: '复制结果',
                               ),
