@@ -61,6 +61,7 @@ void main() async {
   } catch (e, stackTrace) {
     print('Initialization error: $e');
     print('Stack trace: $stackTrace');
+    windowManager.destroy();
     rethrow;
   }
 }
@@ -289,6 +290,7 @@ class _MyHomePageState extends State<MyHomePage> with WindowListener {
     });
   }
 
+  @override
   Future<bool> onWindowClose() async {
     if (_isExit) {
       return true;
